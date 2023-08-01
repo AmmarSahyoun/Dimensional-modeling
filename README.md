@@ -1,5 +1,6 @@
-### This is an OLAP system from financial data warehouse, that contains all the transactions for one day
- with a composite primary key in the fact table that consist of (orderId, ItemId)
+### This is an OLAP system from a data warehouse, that contains all the transactions for one day.
+### With a composite primary key in the fact table that consist of (orderId, ItemId)
+<br>
 
 this repo contain:
 * TSQL queries that define the star schema.
