@@ -1,5 +1,5 @@
-DECLARE @start DATE = '2018-01-01'
-DECLARE @end Date = '2100-01-01'
+DECLARE @start DATE = '2008-01-01'
+DECLARE @end Date = '2008-12-31'
 
 WHILE @start <= @end
 BEGIN
