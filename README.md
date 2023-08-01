@@ -1,4 +1,4 @@
-### This is an OLAP system from a data warehouse, that contains all the transactions for one day.
+### This is an OLAP system from a data warehouse, contains all the transactions for one day.
 ### With a composite primary key in the fact table that consist of (orderId, ItemId)
 <br>
 
