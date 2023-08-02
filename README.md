@@ -6,9 +6,11 @@
 this repo contains:
 * TSQL queries that define the star schema.
 * Generated dimension date table by TSQL.
-* ad-hoc queries for data discovery.
+* Ad-hoc queries for data discovery.
 * UAT views for data quality and evaluation.
 * ER diagram.
-* views for advanced insights.
+* Views for advanced insights.
+* Quality queries for data Validity, accuracy and integrity.
+
 
 ![ER diagram](ER_StarSchema.png)
