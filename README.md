@@ -1,16 +1,15 @@
 ### -This is an OLAP system created from OLTP data warehouse. 
-### -This data model represents dimensional star schema model with various dimensions and a fact table which has a composite primary key consist of (orderId, ItemId)
+### -This data model represents a dimensional star schema model with various dimensions and a fact table which has a composite primary key consist of (orderId, ItemId)
 
 <br>
 
-this repo contains:
+This repo contains:
 * TSQL queries that define the star schema.
-* Generated dimension date table by TSQL.
+* Generated dimension date table.
 * Ad-hoc queries for data discovery.
-* UAT views for data quality and evaluation.
 * ER diagram.
-* Views for advanced insights.
-* Quality queries for data Validity, accuracy and integrity.
+* Stored Procedure and Views for advanced insights.
+* UAT Quality for data Validity, accuracy and integrity.
 
 
 ![ER diagram](ER_StarSchema.png)
