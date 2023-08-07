@@ -1,0 +1,20 @@
+{
+	"name": "Sales for 2022 over geo-partition",
+	"properties": {
+		"folder": {
+			"name": "Discovery"
+		},
+		"content": {
+			"query": "-- Group the data by partitions to determine the rank of each partition based on a metric\n\n\n--To retrieve sales for 2022 over (country / region) partition\n SELECT  g.EnglishCountryRegionName AS Region,\n         ROW_NUMBER() OVER(PARTITION BY g.EnglishCountryRegionName\n                           ORDER BY i.SalesAmount ASC) AS RowNumber,\n         i.SalesOrderNumber AS OrderNo,\n         i.SalesOrderLineNumber AS LineItem,\n         i.SalesAmount AS SalesAmount,\n         SUM(i.SalesAmount) OVER(PARTITION BY g.EnglishCountryRegionName) AS RegionTotal,\n         AVG(i.SalesAmount) OVER(PARTITION BY g.EnglishCountryRegionName) AS RegionAverage\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n WHERE d.CalendarYear = 2022\n ORDER BY Region;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlzlq4n0j",
+				"poolName": "sqlzlq4n0j"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

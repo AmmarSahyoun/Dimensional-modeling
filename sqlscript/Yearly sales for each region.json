@@ -1,0 +1,20 @@
+{
+	"name": "Yearly sales for each region",
+	"properties": {
+		"folder": {
+			"name": "Discovery"
+		},
+		"content": {
+			"query": " -- Geography is a snowflake dimension that require two joins\n \n SELECT  d.CalendarYear AS Year,\n         g.EnglishCountryRegionName AS Region,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n GROUP BY d.CalendarYear, g.EnglishCountryRegionName\n ORDER BY Year, Region;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlzlq4n0j",
+				"poolName": "sqlzlq4n0j"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
