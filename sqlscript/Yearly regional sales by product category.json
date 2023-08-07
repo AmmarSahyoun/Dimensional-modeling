@@ -1,0 +1,20 @@
+{
+	"name": "Yearly regional sales by product category",
+	"properties": {
+		"folder": {
+			"name": "Discovery"
+		},
+		"content": {
+			"query": "-- ProductCategory is a snowflake dimension that require three joins\n\n\n SELECT  d.CalendarYear AS Year,\n         pc.EnglishProductCategoryName AS ProductCategory,\n         g.EnglishCountryRegionName AS Region,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n JOIN DimProduct AS p ON i.ProductKey = p.ProductKey\n JOIN DimProductSubcategory AS ps ON p.ProductSubcategoryKey = ps.ProductSubcategoryKey\n JOIN DimProductCategory AS pc ON ps.ProductCategoryKey = pc.ProductCategoryKey\n GROUP BY d.CalendarYear, pc.EnglishProductCategoryName, g.EnglishCountryRegionName\n ORDER BY Year, ProductCategory, Region;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlzlq4n0j",
+				"poolName": "sqlzlq4n0j"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

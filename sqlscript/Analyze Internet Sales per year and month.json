@@ -1,0 +1,20 @@
+{
+	"name": "Analyze Internet Sales per year and month",
+	"properties": {
+		"folder": {
+			"name": "Discovery"
+		},
+		"content": {
+			"query": " SELECT  d.CalendarYear AS Year,\n         d.MonthNumberOfYear AS Month,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n GROUP BY d.CalendarYear, d.MonthNumberOfYear\n ORDER BY Year, Month;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlzlq4n0j",
+				"poolName": "sqlzlq4n0j"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

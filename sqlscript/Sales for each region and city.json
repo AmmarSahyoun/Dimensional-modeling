@@ -1,0 +1,20 @@
+{
+	"name": "Sales for each region and city",
+	"properties": {
+		"folder": {
+			"name": "Discovery"
+		},
+		"content": {
+			"query": "-- windowing function to group and rank the cities in each region based on sales\n\n SELECT  g.EnglishCountryRegionName AS Region,\n         g.City,\n         SUM(i.SalesAmount) AS CityTotal,\n         SUM(SUM(i.SalesAmount)) OVER(PARTITION BY g.EnglishCountryRegionName) AS RegionTotal,\n         RANK() OVER(PARTITION BY g.EnglishCountryRegionName\n                     ORDER BY SUM(i.SalesAmount) DESC) AS RegionalRank\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n GROUP BY g.EnglishCountryRegionName, g.City\n ORDER BY Region;\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqlzlq4n0j",
+				"poolName": "sqlzlq4n0j"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
