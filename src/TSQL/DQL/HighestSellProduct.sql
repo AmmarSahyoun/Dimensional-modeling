@@ -1,3 +1,5 @@
+use [SalesDW]
+GO
 
 -- The highest selling 3 products
 

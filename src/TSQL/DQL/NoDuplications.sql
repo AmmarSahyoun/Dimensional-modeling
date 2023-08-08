@@ -1,3 +1,7 @@
+use [SalesDW]
+GO
+
+
 -- check for uniqeness for a column
 with
     cte

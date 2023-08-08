@@ -1,3 +1,6 @@
+use [SalesDW]
+GO
+
 
 SELECT s.SalesOrderId, c.EmailAddress, p.ProductName, s.Quantity
 FROM sales_fct AS s
