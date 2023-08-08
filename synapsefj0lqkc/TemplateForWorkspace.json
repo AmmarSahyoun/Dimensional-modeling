@@ -1,0 +1,333 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"type": "string",
+			"metadata": "Workspace name",
+			"defaultValue": "synapsefj0lqkc"
+		},
+		"synapsefj0lqkc-WorkspaceDefaultSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'synapsefj0lqkc-WorkspaceDefaultSqlServer'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:synapsefj0lqkc.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"synapsezlq4n0j-WorkspaceDefaultSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'synapsezlq4n0j-WorkspaceDefaultSqlServer'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:synapsezlq4n0j.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"synapsefj0lqkc-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalakefj0lqkc.dfs.core.windows.net"
+		},
+		"synapsezlq4n0j-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalakezlq4n0j.dfs.core.windows.net"
+		}
+	},
+	"variables": {
+		"workspaceId": "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('workspaceName'), '/PowerBIWorkspace1')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "PowerBIWorkspace",
+				"typeProperties": {
+					"workspaceID": "3a2c7244-57bd-4950-94ea-4c12ecbec148",
+					"tenantID": "bb7ed293-2674-4aef-a74a-dbf340a8ab33"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/synapsefj0lqkc-WorkspaceDefaultSqlServer')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"DBName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('synapsefj0lqkc-WorkspaceDefaultSqlServer_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/synapsefj0lqkc-WorkspaceDefaultStorage')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('synapsefj0lqkc-WorkspaceDefaultStorage_properties_typeProperties_url')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/synapsezlq4n0j-WorkspaceDefaultSqlServer')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"DBName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('synapsezlq4n0j-WorkspaceDefaultSqlServer_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/synapsezlq4n0j-WorkspaceDefaultStorage')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('synapsezlq4n0j-WorkspaceDefaultStorage_properties_typeProperties_url')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 0
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/WorkspaceSystemIdentity')]",
+			"type": "Microsoft.Synapse/workspaces/credentials",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "ManagedIdentity",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Analyze Internet Sales per year and month')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Discovery"
+				},
+				"content": {
+					"query": " SELECT  d.CalendarYear AS Year,\n         d.MonthNumberOfYear AS Month,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n GROUP BY d.CalendarYear, d.MonthNumberOfYear\n ORDER BY Year, Month;\n\n\n select d.CalendarYear as Year,\n--  d.CalendarQuarter as Quarter,\n-- , d.MonthNumberOfYear as Month,\n sum(i.SalesAmount) as Sales\n from FactInternetSales i join DimDate d on i.OrderDateKey = d.Datekey\n group by d.CalendarYear \n--  ,d.CalendarQuarter \n--  , d.MonthNumberOfYear \n order by Year\n--  , Quarter\n-- , Month\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlfj0lqkc",
+						"poolName": "sqlfj0lqkc"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Number of orders for each year')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Discovery"
+				},
+				"content": {
+					"query": "-- 'APPROX_COUNT_DISTINCT()' function optimized for shorter latency\n\n SELECT d.CalendarYear AS CalendarYear,\n     APPROX_COUNT_DISTINCT(i.SalesOrderNumber) AS Orders\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n GROUP BY d.CalendarYear\n ORDER BY CalendarYear;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlfj0lqkc",
+						"poolName": "sqlfj0lqkc"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Sales for 2022 over geo-partition')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Discovery"
+				},
+				"content": {
+					"query": "-- Group the data by partitions to determine the rank of each partition based on a metric\n\n\n--To retrieve sales for 2022 over (country / region) partition\n SELECT  g.EnglishCountryRegionName AS Region,\n         ROW_NUMBER() OVER(PARTITION BY g.EnglishCountryRegionName\n                           ORDER BY i.SalesAmount ASC) AS RowNumber,\n         i.SalesOrderNumber AS OrderNo,\n         i.SalesOrderLineNumber AS LineItem,\n         i.SalesAmount AS SalesAmount,\n         SUM(i.SalesAmount) OVER(PARTITION BY g.EnglishCountryRegionName) AS RegionTotal,\n         AVG(i.SalesAmount) OVER(PARTITION BY g.EnglishCountryRegionName) AS RegionAverage\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n WHERE d.CalendarYear = 2022\n ORDER BY Region;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlfj0lqkc",
+						"poolName": "sqlfj0lqkc"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Sales for each region and city')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Discovery"
+				},
+				"content": {
+					"query": "-- windowing function to group and rank the cities in each region based on sales\n\n SELECT  g.EnglishCountryRegionName AS Region,\n         g.City,\n         SUM(i.SalesAmount) AS CityTotal,\n         SUM(SUM(i.SalesAmount)) OVER(PARTITION BY g.EnglishCountryRegionName) AS RegionTotal,\n         RANK() OVER(PARTITION BY g.EnglishCountryRegionName\n                     ORDER BY SUM(i.SalesAmount) DESC) AS RegionalRank\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n GROUP BY g.EnglishCountryRegionName, g.City\n ORDER BY Region;\n\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlzlq4n0j",
+						"poolName": "sqlzlq4n0j"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Solution')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Items sold by Fiscal Year and Quarter\nSELECT  d.FiscalYear AS FY,\n        d.FiscalQuarter AS FQ,\n        SUM(r.OrderQuantity) AS ItemsSold\nFROM FactResellerSales AS r\nJOIN DimDate AS d ON r.OrderDateKey = d.DateKey\nGROUP BY d.FiscalYear, d.FiscalQuarter\nORDER BY FY, FQ;\n\n\n-- Items sold by Fiscal Year, Quarter, and sales territory region\nSELECT  d.FiscalYear AS FY,\n        d.FiscalQuarter AS FQ,\n        t. SalesTerritoryRegion AS SalesTerritory,\n        SUM(r.OrderQuantity) AS ItemsSold\nFROM FactResellerSales AS r\nJOIN DimDate AS d ON r.OrderDateKey = d.DateKey\nJOIN DimEmployee AS e ON r.EmployeeKey = e.EmployeeKey\nJOIN DimSalesTerritory AS t ON e.SalesTerritoryKey = t.SalesTerritoryKey\nGROUP BY d.FiscalYear, d.FiscalQuarter, t. SalesTerritoryRegion\nORDER BY FY, FQ, SalesTerritory\n\n\n-- Items sold by Fiscal Year, Quarter, sales territory region, and product category\nSELECT  d.FiscalYear AS FY,\n        d.FiscalQuarter AS FQ,\n        t. SalesTerritoryRegion AS SalesTerritory,\n        pc.EnglishProductCategoryName AS ProductCategory,\n        SUM(r.OrderQuantity) AS ItemsSold\nFROM FactResellerSales AS r\nJOIN DimDate AS d ON r.OrderDateKey = d.DateKey\nJOIN DimEmployee AS e ON r.EmployeeKey = e.EmployeeKey\nJOIN DimSalesTerritory AS t ON e.SalesTerritoryKey = t.SalesTerritoryKey\nJOIN DimProduct AS p ON r.ProductKey = p.ProductKey\nJOIN DimProductSubcategory AS ps ON p.ProductSubcategoryKey = ps.ProductSubcategoryKey\nJOIN DimProductCategory AS pc ON ps.ProductCategoryKey = pc.ProductCategoryKey\nGROUP BY d.FiscalYear, d.FiscalQuarter, t. SalesTerritoryRegion, pc.EnglishProductCategoryName\nORDER BY FY, FQ, SalesTerritory, ProductCategory\n\n\n-- Ranked sales territories by year based on total sales amount\nSELECT  d.FiscalYear,\n        t. SalesTerritoryRegion AS SalesTerritory,\n        SUM(s.SalesAmount) AS TerritoryTotal,\n        SUM(SUM(s.SalesAmount)) OVER(PARTITION BY d.FiscalYear) AS YearTotal,\n        RANK() OVER(PARTITION BY d.FiscalYear\n                    ORDER BY SUM(s.SalesAmount) DESC) AS RankForYear\nFROM FactResellerSales AS s\nJOIN DimDate AS d ON s.OrderDateKey = d.DateKey\nJOIN DimEmployee AS e ON s.EmployeeKey = e.EmployeeKey\nJOIN DimSalesTerritory AS t ON e.SalesTerritoryKey = t.SalesTerritoryKey\nGROUP BY d.FiscalYear, t.SalesTerritoryRegion\nORDER BY d.FiscalYear;\n\n\n-- Approximate number of sales orders per fiscal year by territory\nSELECT  d.FiscalYear,\n        t. SalesTerritoryRegion AS SalesTerritory,\n        APPROX_COUNT_DISTINCT(s.SalesOrderNumber) AS ApproxOrders\nFROM FactResellerSales AS s\nJOIN DimDate AS d ON s.OrderDateKey = d.DateKey\nJOIN DimEmployee AS e ON s.EmployeeKey = e.EmployeeKey\nJOIN DimSalesTerritory AS t ON e.SalesTerritoryKey = t.SalesTerritoryKey\nGROUP BY d.FiscalYear, t.SalesTerritoryRegion\nORDER BY d.FiscalYear, ApproxOrders;\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlfj0lqkc",
+						"poolName": "sqlfj0lqkc"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Yearly regional sales by product category')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Discovery"
+				},
+				"content": {
+					"query": "-- ProductCategory is a snowflake dimension that require three joins\n\n\n SELECT  d.CalendarYear AS Year,\n         pc.EnglishProductCategoryName AS ProductCategory,\n         g.EnglishCountryRegionName AS Region,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n JOIN DimProduct AS p ON i.ProductKey = p.ProductKey\n JOIN DimProductSubcategory AS ps ON p.ProductSubcategoryKey = ps.ProductSubcategoryKey\n JOIN DimProductCategory AS pc ON ps.ProductCategoryKey = pc.ProductCategoryKey\n GROUP BY d.CalendarYear, pc.EnglishProductCategoryName, g.EnglishCountryRegionName\n ORDER BY Year, ProductCategory, Region;\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlzlq4n0j",
+						"poolName": "sqlzlq4n0j"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Yearly sales for each region')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Discovery"
+				},
+				"content": {
+					"query": " -- Geography is a snowflake dimension that require two joins\n \n SELECT  d.CalendarYear AS Year,\n         g.EnglishCountryRegionName AS Region,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n JOIN DimCustomer AS c ON i.CustomerKey = c.CustomerKey\n JOIN DimGeography AS g ON c.GeographyKey = g.GeographyKey\n GROUP BY d.CalendarYear, g.EnglishCountryRegionName\n ORDER BY Year, Region;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqlzlq4n0j",
+						"poolName": "sqlzlq4n0j"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/sqlfj0lqkc')]",
+			"type": "Microsoft.Synapse/workspaces/sqlPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"collation": "SQL_Latin1_General_CP1_CI_AS",
+				"maxSizeBytes": 263882790666240,
+				"annotations": []
+			},
+			"dependsOn": [],
+			"location": "westus2"
+		}
+	]
+}
