@@ -1,3 +1,6 @@
+use [SalesDW]
+GO
+
 select top(3)
     *
 from customer_dim
