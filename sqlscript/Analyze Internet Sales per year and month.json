@@ -5,13 +5,13 @@
 			"name": "Discovery"
 		},
 		"content": {
-			"query": " SELECT  d.CalendarYear AS Year,\n         d.MonthNumberOfYear AS Month,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n GROUP BY d.CalendarYear, d.MonthNumberOfYear\n ORDER BY Year, Month;",
+			"query": " SELECT  d.CalendarYear AS Year,\n         d.MonthNumberOfYear AS Month,\n         SUM(i.SalesAmount) AS InternetSalesAmount\n FROM FactInternetSales AS i\n JOIN DimDate AS d ON i.OrderDateKey = d.DateKey\n GROUP BY d.CalendarYear, d.MonthNumberOfYear\n ORDER BY Year, Month;\n\n\n select d.CalendarYear as Year,\n--  d.CalendarQuarter as Quarter,\n-- , d.MonthNumberOfYear as Month,\n sum(i.SalesAmount) as Sales\n from FactInternetSales i join DimDate d on i.OrderDateKey = d.Datekey\n group by d.CalendarYear \n--  ,d.CalendarQuarter \n--  , d.MonthNumberOfYear \n order by Year\n--  , Quarter\n-- , Month\n",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "sqlzlq4n0j",
-				"poolName": "sqlzlq4n0j"
+				"databaseName": "sqlfj0lqkc",
+				"poolName": "sqlfj0lqkc"
 			},
 			"resultLimit": 5000
 		},
