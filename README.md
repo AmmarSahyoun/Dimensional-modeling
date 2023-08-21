@@ -1,6 +1,6 @@
 # Repo description:
 
-#### -This is an OLAP system created from OLTP data warehouse. 
+#### -This is an data warehouse OLAP system created from distributed OLTP system. 
 #### -The DW **Snowflake schema** in the ER diagram shows the dependent dimensions.
 #### -The OLAP **dimensional Star schema** has a fact table with composite primary key consist of (orderId, ItemId)
 
@@ -17,7 +17,7 @@ This **repo** contains:
 * Power BI report for revenue by region, Year and month for each Product-category.
 
 
-![ER diagram](DW.png)
+![ER diagram](DW.jpg)
 
 <br>
 
