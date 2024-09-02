@@ -1,7 +1,7 @@
 # Dimensional Data Warehouse,  SQL Server -> ADLS
 
 ## Overview
-This repository demonstrates the **scripts** to design and implementation of a dimensional data warehouse (DW) built from a distributed Online Transaction Processing (OLTP) system in SQL Server ( the famous database AdventureWorks2016 by [Microsoft](https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver16&tabs=ssms) ). The project focuses on transforming the OLTP data into a star schema optimized for analytical queries in Azure Data Lake Storage (ADLS).
+This repository demonstrates the **scripts** to design and implementation of a dimensional data warehouse **OLAP** built from a distributed Online Transaction Processing **OLTP** system in SQL Server (the famous database AdventureWorks2016 by [Microsoft](https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver16&tabs=ssms) and expose proper metrics in **PowerBI**. The project focuses on transforming the OLTP data into a star schema  as a parquet files optimized for analytical queries in Azure Data Lake Storage (ADLS).
 
 
 ## Clone the repository:
@@ -12,11 +12,12 @@ git clone https://github.com/AmmarSahyoun/Dimensional-Data-Warehouse.git
 ## Architecture
 * **Source:** Distributed OLTP system in SQL Server.
 
-![OLTP](DW.jpg)
+<img src="https://github.com/AmmarSahyoun/Dimensional-modeling/blob/main/assets/DW.jpg" alt="database OLTP" width="400" height="400">
+
 
 * **Target:** Dimensional data warehouse in Parquet format within Azure Data Lake Storage (ADLS). 
 
-![OLAP](ER_StarSchema.png)
+<img src="https://github.com/AmmarSahyoun/Dimensional-modeling/blob/main/assets/ER_StarSchema.png)" alt="OLAP" width="400" height="400">
 
 * **ETL Process:**
     * Data extraction from SQL Server tables.
@@ -28,7 +29,8 @@ git clone https://github.com/AmmarSahyoun/Dimensional-Data-Warehouse.git
     * Fact table with composite primary key (orderId, ItemId).
 * **Reporting:** Power BI report showcasing revenue analysis by region, year, month, and product category (visual representation included).
 
-![ER diagram](report01.png)
+<img src="https://github.com/AmmarSahyoun/Dimensional-modeling/blob/main/assets/report01.png" alt="report" >
+
 
 ## Scripts
 * **Copy pipeline:** Transfers data from SQL Server tables to Parquet files in ADLS.
