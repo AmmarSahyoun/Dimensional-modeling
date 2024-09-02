@@ -27,15 +27,15 @@ select name, object_name(parent_id) as table_name, type_desc
 from sys.triggers;
 
 
--- Self-Referencing Foreign Keys, Extract parent-product hierarchy
+-- Hierarchy, Self-Referencing Foreign Key(ParentProductCategoryID)
 select 
-	pp.Name as parent,
-    p.Name as product_name,
-    p.rowguid,
-    p.ModifiedDate
-from SalesLT.ProductCategory p 
-	left join SalesLT.ProductCategory pp 
-	on p.ParentProductCategoryID = pp.ProductCategoryID
+	B.Name as parent,
+    A.Name as product_name,
+    A.rowguid,
+    A.ModifiedDate
+from SalesLT.ProductCategory A 
+	left join SalesLT.ProductCategory B 
+	on A.ParentProductCategoryID = B.ProductCategoryID
 order by parent
 
 
