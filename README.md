@@ -17,7 +17,7 @@ git clone https://github.com/AmmarSahyoun/Dimensional-Data-Warehouse.git
 
 * **Target:** Dimensional data warehouse in Parquet format within Azure Data Lake Storage (ADLS). 
 
-<img src="https://github.com/AmmarSahyoun/Dimensional-modeling/blob/main/assets/ER_StarSchema.png)" alt="OLAP" width="400" height="400">
+<img src="https://github.com/AmmarSahyoun/Dimensional-modeling/blob/main/assets/ER_StarSchema.png" alt="OLAP" width="400" height="400">
 
 * **ETL Process:**
     * Data extraction from SQL Server tables.
