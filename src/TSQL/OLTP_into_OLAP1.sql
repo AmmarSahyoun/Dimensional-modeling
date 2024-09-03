@@ -63,7 +63,14 @@ create table DimDate (
     Quarter int
 );
 
--- Populate the Date Dimension table (example using a date range)
+-- Generate full date range using a recursive CTE
+with DateList as (
+    select cast('2000-01-01' as date) as d
+    union all
+    select dateadd(day, 1, d)
+    from DateList
+    where d < '2025-12-31'
+)
 insert into DimDate (DateKey, FullDate, Day, Month, Year, DayOfWeek, Quarter)
 select 
     cast(format(d, 'yyyyMMdd') as int) as DateKey,
@@ -73,11 +80,8 @@ select
     year(d) as Year,
     datename(weekday, d) as DayOfWeek,
     datepart(quarter, d) as Quarter
-from (
-    select dateadd(day, number, '2010-01-01') as d
-    from master..spt_values
-    where type = 'P' and number <= datediff(day, '2001-01-01', '2025-12-31')
-) as DateList;
+from DateList
+option (maxrecursion 0);  --Allow infinite recursion to cover all dates
 
 
 -- Create the Product Dimension table with additional attributes
