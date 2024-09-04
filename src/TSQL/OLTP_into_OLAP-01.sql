@@ -117,7 +117,7 @@ from AdventureWorksLT2016.SalesLT.Product p
 left join AdventureWorksLT2016.SalesLT.ProductCategory pc 
     on p.ProductCategoryID = pc.ProductCategoryID
 left join AdventureWorksLT2016.SalesLT.ProductCategory pcp 
-    on pc.ParentProductCategoryID = pcp.ProductCategoryID -- Self-join for parent category
+    on pc.ParentProductCategoryID = pcp.ProductCategoryID -- Self-join for parent category (Hierarchical-analysis)
 left join AdventureWorksLT2016.SalesLT.ProductModel pm 
     on p.ProductModelID = pm.ProductModelID
 left join AdventureWorksLT2016.SalesLT.ProductModelProductDescription pmpd 
